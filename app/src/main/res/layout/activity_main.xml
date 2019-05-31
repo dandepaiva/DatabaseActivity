@@ -56,6 +56,7 @@
         android:ems="10"
         android:hint="@string/quantity"
         android:inputType="number"
+        android:maxLength="7"
         android:textColorHint="#8BC34A"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/product_name" />
