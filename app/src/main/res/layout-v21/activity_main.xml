@@ -13,9 +13,9 @@
         android:layout_marginStart="96dp"
         android:layout_marginEnd="96dp"
         android:layout_marginTop="24dp"
-        android:backgroundTint="@color/colorButton"
+        android:backgroundTint="@color/colorPrimaryDark"
         android:text="@string/add_button"
-        android:textColor="@color/colorDark"
+        android:textColor="@color/colorLight"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/quantity" />
 
@@ -26,9 +26,9 @@
         android:layout_marginStart="40dp"
         android:layout_marginEnd="40dp"
         android:layout_marginTop="24dp"
-        android:backgroundTint="@color/colorButton"
+        android:backgroundTint="@color/colorPrimaryDark"
         android:text="@string/find_button"
-        android:textColor="@color/colorDark"
+        android:textColor="@color/colorLight"
         app:layout_constraintStart_toEndOf="@+id/add_button"
         app:layout_constraintTop_toBottomOf="@+id/quantity" />
 
@@ -42,7 +42,7 @@
         android:hint="@string/productName"
         android:importantForAutofill="no"
         android:inputType="textPersonName"
-        android:textColorHint="#8BC34A"
+        android:textColorHint="@color/colorButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -58,7 +58,7 @@
         android:importantForAutofill="no"
         android:inputType="number"
         android:maxLength="7"
-        android:textColorHint="#8BC34A"
+        android:textColorHint="@color/colorButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.141"
         app:layout_constraintStart_toStartOf="parent"
