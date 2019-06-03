@@ -1,34 +1,41 @@
 package com.example.DatabaseActivity;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
-import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import org.w3c.dom.UserDataHandler;
 
 import java.util.ArrayList;
-import java.util.Map;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    private String TAG = "FIND BUTTON";
 
-    private String TAG = "MainActivity Button";
-    private String TAG2 = "FIND BUTTON";
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager layoutManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        recyclerView = findViewById(R.id.students_recyclerView);
+        recyclerView.setHasFixedSize(true);
+
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+
 
         final Button add_button = findViewById(R.id.add_button);
         final EditText productName = findViewById(R.id.product_name);
@@ -45,44 +52,45 @@ public class MainActivity extends AppCompatActivity {
                     quantity should not be 0
                  */
                 if(TextUtils.isEmpty(productNameString) || TextUtils.isEmpty(quantityValue)){
-                    Log.d(TAG, "1 - onClick() called with " + productNameString + ", " + quantityValue);
                 } else {
-
                     ContentValues values = new ContentValues();
                     values.put(MyDBHandler.COLUMN_PRODUCTNAME, productNameString);
                     values.put(MyDBHandler.COLUMN_QUANTITY, Integer.parseInt(quantityValue));
                     getContentResolver().insert(MyContentProvider.CONTENT_URI, values);
-
-                    Log.d(TAG, "2 - onClick() called with " + productNameString + ", " + quantityValue);
                 }
             }
         });
+
+        final ArrayList<Product> tableRow = new ArrayList<>();
 
         find_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String[] productNameString = {productName.getText().toString()};
-                Cursor cursor = getContentResolver().query(MyContentProvider.CONTENT_URI, null, MyDBHandler.COLUMN_PRODUCTNAME + " = ?", productNameString, null);
-                ArrayList<String > tableRow = new ArrayList<>();
-                String aux;
+                Cursor cursor = getContentResolver().query(MyContentProvider.CONTENT_URI, null, MyDBHandler.COLUMN_PRODUCTNAME + " = ?", productNameString, MyDBHandler.COLUMN_QUANTITY);
+
+                String prodNameQuery;
+                int prodQuantQuery;
+                Product productQuery;
+                tableRow.clear();
+
                 if (cursor.moveToFirst()) {
                     do {
-                         Log.d(TAG2, "1-findButton found one " + cursor.getString(cursor.getColumnIndex(MyDBHandler.COLUMN_PRODUCTNAME))+ " \t quantity: " + cursor.getString(cursor.getColumnIndex(MyDBHandler.COLUMN_QUANTITY)));
-                         aux = cursor.getString(cursor.getColumnIndex(MyDBHandler.COLUMN_PRODUCTNAME))+ ", " + cursor.getString(cursor.getColumnIndex(MyDBHandler.COLUMN_QUANTITY));
-                         tableRow.add(aux);
+                        productQuery= new Product();
+                        prodNameQuery = cursor.getString(cursor.getColumnIndex(MyDBHandler.COLUMN_PRODUCTNAME));
+                        prodQuantQuery = Integer.parseInt(cursor.getString(cursor.getColumnIndex(MyDBHandler.COLUMN_QUANTITY)));
+                        productQuery.setProductName(prodNameQuery);
+                        productQuery.setQuantity(prodQuantQuery);
+
+                        tableRow.add(productQuery);
                     } while (cursor.moveToNext());
                 }
-                aux = "";
-                for(String iterator : tableRow){
-                    aux = aux + iterator +";\n" ;
-                }
-
-                Toast.makeText(MainActivity.this,
-                        aux,
-                        Toast.LENGTH_SHORT).show();
                 cursor.close();
+                mAdapter = new MyAdapter(tableRow);
+                recyclerView.setAdapter(mAdapter);
             }
         });
+
     }
 
     @Override

@@ -2,4 +2,6 @@
     <string name="app_name">DatabaseActivity</string>
     <string name="productName">Product Name</string>
     <string name="quantity">Quantity</string>
+    <string name="find_button">Find</string>
+    <string name="add_button">Add</string>
 </resources>
