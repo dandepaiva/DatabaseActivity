@@ -3,20 +3,23 @@
 
 
     <!-- user interface -->
-    <!-- TextViews -->
+            <!-- TextViews -->
     <string name="productName">Product Name</string>
     <string name="quantity">Quantity</string>
 
-    <!-- Buttons -->
+            <!-- Buttons -->
     <string name="find_button">Find</string>
     <string name="add_button">Add</string>
     <string name="delete_button">Delete</string>
+
 
     <!-- search helpers -->
     <string name="no_product_name">"Write your product name"</string>
     <string name="no_product_quantity">"How many %1$s do you want?"</string>
     <string name="zero_product">"Has to be at least 1 %1$s" </string>
-
     <string name="delete_success">"You have deleted all %1$s"</string>
     <string name="delete_failed">"Did not find any %1$s" </string>
+
+    <string name="progress_bar">"progress: %1$d"</string>
+    <string name="async_throttle">"produto %1$d"</string>
 </resources>

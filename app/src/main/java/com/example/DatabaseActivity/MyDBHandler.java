@@ -98,9 +98,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
     public static boolean deleteProduct(String productName){
         boolean result = false;
-
         String selection = "productname = \"" + productName + "\"";
-
         int rowsDeleted = getInstance().myCR.delete(MyContentProvider.CONTENT_URI, selection, null);
 
         if(rowsDeleted > 0){
@@ -109,4 +107,6 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
         return result;
     }
+
+
 }

@@ -12,12 +12,10 @@ import java.util.ArrayList;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     private ArrayList<Product> productArrayList;
-    private String TAG = "MY ADAPTER";
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView productName;
         public TextView quantity;
-        private String TAG = "MY VIEW HOLDER";
 
         public MyViewHolder(View v) {
             super(v);
