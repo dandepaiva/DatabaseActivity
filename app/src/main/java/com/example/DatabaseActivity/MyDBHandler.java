@@ -6,8 +6,15 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.text.TextUtils;
+import android.util.Log;
+
+import java.util.ArrayList;
 
 public class MyDBHandler extends SQLiteOpenHelper {
+    private static String TAG = "SINGLETON";
+    private static MyDBHandler instance;
+
     private ContentResolver myCR;
 
     private static final int DATABASE_VERSION = 1;
@@ -18,13 +25,18 @@ public class MyDBHandler extends SQLiteOpenHelper {
     public static final String COLUMN_PRODUCTNAME = "productname";
     public static final String COLUMN_QUANTITY = "quantity";
 
-    public MyDBHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, DATABASE_NAME, factory, DATABASE_VERSION);
+    public MyDBHandler(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
         myCR = context.getContentResolver();
     }
 
-    //MADE BY HAND
-    //------------------------------------||----------------------------------------
+    public static MyDBHandler getInstance() {
+        if(instance == null){
+            instance = new MyDBHandler(MyApplication.getContext());
+        }
+        return instance;
+    }
+
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_BOOK_TABLE = "CREATE TABLE " + TABLE_PRODUCTS + " ( " +
@@ -39,44 +51,57 @@ public class MyDBHandler extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PRODUCTS);
         this.onCreate(db);
     }
-    //-------------------------------------||---------------------------------------
 
-    public void addProduct(Product product) {
+
+    public static void addProduct(Product product) {
 
         ContentValues values = new ContentValues();
         values.put(COLUMN_PRODUCTNAME, product.getProductName());
         values.put(COLUMN_QUANTITY, product.getQuantity());
 
-        myCR.insert(MyContentProvider.CONTENT_URI, values);
-    }
-
-    public Product findProduct(String productName){
-        String[] projection = {COLUMN_ID, COLUMN_PRODUCTNAME, COLUMN_QUANTITY};
-
-        String selection = "productname = \"" + productName + "\"";
-
-        Cursor cursor = myCR.query(MyContentProvider.CONTENT_URI, projection, selection, null, null);
-
-        Product product = new Product();
-
-        if(cursor.moveToFirst()){
-            cursor.moveToFirst();
-            product.setId(Integer.parseInt(cursor.getString(0)));
-            product.setProductName(cursor.getString(1));
-            product.setQuantity(Integer.parseInt(cursor.getString(2)));
-            cursor.close();
-        } else {
-            product = null;
+        int onUpdate = getInstance().myCR.update(MyContentProvider.CONTENT_URI, values, MyDBHandler.COLUMN_PRODUCTNAME + " = ?", new String[]{product.getProductName()});
+        if (onUpdate == 0) {
+            getInstance().myCR.insert(MyContentProvider.CONTENT_URI, values);
         }
-        return product;
     }
 
-    public boolean deleteProduct(String productName){
+    public static ArrayList<Product> findProduct(String productNameString){
+        String whereClause = null;
+        String[] whereParam = null;
+
+        if (!TextUtils.isEmpty(productNameString)) {
+            whereClause = MyDBHandler.COLUMN_PRODUCTNAME + " = ?";
+            whereParam = new String[]{productNameString};
+        }
+
+        Cursor cursor = getInstance().myCR.query(MyContentProvider.CONTENT_URI, null, whereClause, whereParam, MyDBHandler.COLUMN_QUANTITY);
+
+        String prodNameQuery;
+        int prodQuantQuery;
+        Product productQuery;
+        ArrayList<Product> tableRow = new ArrayList<>();
+
+        if (cursor.moveToFirst()) {
+            do {
+                productQuery = new Product();
+                prodNameQuery = cursor.getString(cursor.getColumnIndex(MyDBHandler.COLUMN_PRODUCTNAME));
+                prodQuantQuery = Integer.parseInt(cursor.getString(cursor.getColumnIndex(MyDBHandler.COLUMN_QUANTITY)));
+                productQuery.setProductName(prodNameQuery);
+                productQuery.setQuantity(prodQuantQuery);
+
+                tableRow.add(productQuery);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return tableRow;
+    }
+
+    public static boolean deleteProduct(String productName){
         boolean result = false;
 
         String selection = "productname = \"" + productName + "\"";
 
-        int rowsDeleted = myCR.delete(MyContentProvider.CONTENT_URI, selection, null);
+        int rowsDeleted = getInstance().myCR.delete(MyContentProvider.CONTENT_URI, selection, null);
 
         if(rowsDeleted > 0){
             result = true;

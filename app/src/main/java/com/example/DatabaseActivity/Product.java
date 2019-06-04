@@ -1,18 +1,18 @@
 package com.example.DatabaseActivity;
 
 public class Product {
-    private int id;
+    //private int id;
     private String productName;
     private int quantity;
 
     public Product(){}
 
-    public Product(int id, String name, int quantity) {
-        this.id = id;
+    public Product(String name, int quantity) {
+        //this.id = id;
         this.productName = name;
         this.quantity = quantity;
     }
-
+/*
     public int getId() {
         return id;
     }
@@ -20,7 +20,7 @@ public class Product {
     public void setId(int id) {
         this.id = id;
     }
-
+*/
     public String getProductName() {
         return productName;
     }
@@ -39,6 +39,6 @@ public class Product {
 
     @Override
     public String toString() {
-        return "Product: " + id + " - " + productName;
+        return "Product: " + productName + " : " + quantity;
     }
 }

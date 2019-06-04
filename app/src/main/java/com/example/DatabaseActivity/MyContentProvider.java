@@ -31,9 +31,8 @@ public class MyContentProvider extends ContentProvider {
 
     @Override
     public boolean onCreate() {
-        // "version" (1) and "name" (null) are not used
-        myDB = new MyDBHandler(getContext(), null, null, 1);
-        return false;
+        myDB = new MyDBHandler(getContext());
+        return true;
     }
 
     @Override

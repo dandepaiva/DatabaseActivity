@@ -26,7 +26,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         }
 
         public void onBind(Product p) {
-            Log.d(TAG, "1 onClick() :" + p.getProductName() + ", " + p.getQuantity());
             productName.setText(p.getProductName()+": ");
             quantity.setText("\t" + p.getQuantity() + " units");
         }
