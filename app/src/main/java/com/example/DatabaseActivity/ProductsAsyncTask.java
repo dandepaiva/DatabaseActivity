@@ -29,20 +29,19 @@ public class ProductsAsyncTask extends AsyncTask<Void, Integer, Void> {
 
     @Override
     protected Void doInBackground(Void... voids) {
-        for (int i=counter; i < 1000; i++) {
+        for (int i=0; i < 1000; i++) {
             Log.d(TAG, "doInBackground() called with count: " + i);
 
             Product findProduct = new Product(MyApplication.getContext().getString(R.string.async_throttle, i), i);
             publishProgress(i);
             MyDBHandler.addProduct(findProduct);
-            counter++;
         }
+
         return null;
     }
 
     @Override
     protected void onProgressUpdate(Integer...progress){
-        //Log.d(TAG, "onProgressUpdate() called with: progress = [" + loaderComunication + "]");
         if (loaderComunication != null){
             loaderComunication.sendProgress(progress[0]);
         }
