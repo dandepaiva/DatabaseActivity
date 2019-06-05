@@ -7,7 +7,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.text.TextUtils;
-import android.util.Log;
+
+import com.example.DatabaseActivity.AsyncTasks.AddProductAsync;
 
 import java.util.ArrayList;
 
@@ -50,6 +51,11 @@ public class MyDBHandler extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PRODUCTS);
         this.onCreate(db);
+    }
+
+    public static void addProductAsync(Product product){
+        AddProductAsync productAsync = new AddProductAsync();
+        productAsync.execute(product);
     }
 
 

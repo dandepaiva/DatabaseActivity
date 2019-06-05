@@ -14,14 +14,20 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.DatabaseActivity.AsyncTasks.ProductsAsyncTask;
+import com.example.DatabaseActivity.data.Repository;
+
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity implements LoaderComunication {
     private String TAG = "FIND BUTTON";
-    private String TAG2 = "BOOLEAN";
+    private String TAG2 = "REPOSITORY";
+
 
     private RecyclerView recyclerView;
     private RecyclerView.Adapter recyclerViewAdapter;
     private RecyclerView.LayoutManager recyclerViewLayout;
-    ProductsAsyncTask productsAsync;
+    //ProductsAsyncTask productsAsync;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,21 +44,12 @@ public class MainActivity extends AppCompatActivity implements LoaderComunicatio
         final EditText quantity = findViewById(R.id.quantity);
 
 
-        recyclerView = findViewById(R.id.students_recyclerView);
+        recyclerView = findViewById(R.id.products_recyclerView);
         recyclerView.setHasFixedSize(true);
 
         recyclerViewLayout = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(recyclerViewLayout);
 
-
-        if (!SharedPrefsUtil.isInserted()) {
-            Log.d(TAG2, "YES YES");
-            productsAsync = new ProductsAsyncTask(MainActivity.this);
-            productsAsync.execute();
-            SharedPrefsUtil.updateIsInserted();
-        } else {
-            Log.d(TAG2, "NO NO");
-        }
 
         add_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,10 +64,14 @@ public class MainActivity extends AppCompatActivity implements LoaderComunicatio
                 } else if (Integer.parseInt(quantityValue) == 0) {
                     showToast(getString(R.string.zero_product, productNameString));
                 } else {
-
                     Product findProduct = new Product(productNameString, Integer.parseInt(quantityValue));
-                    MyDBHandler.addProduct(findProduct);
 
+                    Repository.getInstance().insertProduct(findProduct, new Repository.UpdateUI() {
+                        @Override
+                        public void updateProgress(String text) {
+                            Log.d(TAG2, "updateProgress() text = [" + text + "]");
+                        }
+                    });
                 }
             }
         });
@@ -78,8 +79,14 @@ public class MainActivity extends AppCompatActivity implements LoaderComunicatio
         find_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String productNameString = productName.getText().toString();
-                recyclerViewAdapter = new MyAdapter(MyDBHandler.findProduct(productNameString));
+                final String productNameString = productName.getText().toString();
+
+                Repository.getInstance().findProduct(productNameString, new Repository.UpdateRecyclerView() {
+                    @Override
+                    public void updateRecyclerView(ArrayList<Product> products) {
+                        recyclerViewAdapter = new MyAdapter(products);
+                    }
+                });
                 recyclerView.setAdapter(recyclerViewAdapter);
             }
         });
@@ -97,6 +104,8 @@ public class MainActivity extends AppCompatActivity implements LoaderComunicatio
 
             }
         });
+
+
 
     }
 
@@ -116,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements LoaderComunicatio
      * {@link Toast#makeText(Context, int, int)} usage
      * @param text String to be written
      */
-    private void showToast(String text) {
+    private void  showToast(String text) {
         Toast.makeText(MainActivity.this, text, Toast.LENGTH_SHORT).show();
     }
 
