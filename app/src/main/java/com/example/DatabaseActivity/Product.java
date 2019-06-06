@@ -1,26 +1,26 @@
 package com.example.DatabaseActivity;
 
+/**
+ * Object containing a String and an Integer
+ * supposed to represent the name of the product
+ * and respective quantity
+ *
+ * (Name is being used like an ID
+ * the database only allows one Product for each name)
+ * <p></p>
+ * Could be used to represent stock or a shopping list, for example
+ */
 public class Product {
-    //private int id;
     private String productName;
     private int quantity;
 
     public Product(){}
 
     public Product(String name, int quantity) {
-        //this.id = id;
         this.productName = name;
         this.quantity = quantity;
     }
-/*
-    public int getId() {
-        return id;
-    }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-*/
     public String getProductName() {
         return productName;
     }

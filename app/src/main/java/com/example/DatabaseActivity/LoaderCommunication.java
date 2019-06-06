@@ -1,5 +1,5 @@
 package com.example.DatabaseActivity;
 
-public interface LoaderComunication {
+public interface LoaderCommunication {
     void sendProgress (int progress);
 }

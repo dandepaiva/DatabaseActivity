@@ -5,13 +5,12 @@ import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
 
 public class MyContentProvider extends ContentProvider {
-    private MyDBHandler myDB;
+    private MyDBHandler databaseHandler;
 
     private static final String AUTHORITY = "com.example.DatabaseActivity.provider.MyContentProvider";
     private static final String PRODUCTS_TABLE = "products";
@@ -31,14 +30,14 @@ public class MyContentProvider extends ContentProvider {
 
     @Override
     public boolean onCreate() {
-        myDB = new MyDBHandler(getContext());
+        databaseHandler = new MyDBHandler(getContext());
         return true;
     }
 
     @Override
     public Uri insert(Uri uri, ContentValues values) {
         int uriType = sURIMatcher.match(uri);
-        SQLiteDatabase sqlDB = myDB.getWritableDatabase();
+        SQLiteDatabase sqlDB = databaseHandler.getWritableDatabase();
         long id = 0;
 
         switch (uriType){
@@ -72,7 +71,7 @@ public class MyContentProvider extends ContentProvider {
                     throw new IllegalArgumentException("Unknown URI");
         }
 
-        Cursor cursor = queryBuilder.query(myDB.getReadableDatabase(),
+        Cursor cursor = queryBuilder.query(databaseHandler.getReadableDatabase(),
                 projection, selection, selectionArgs,
                 null, null, sortOrder);
         cursor.setNotificationUri(getContext().getContentResolver(), uri);
@@ -82,7 +81,7 @@ public class MyContentProvider extends ContentProvider {
     @Override
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
         int uriType = sURIMatcher.match(uri);
-        SQLiteDatabase sqlDB = myDB.getWritableDatabase();
+        SQLiteDatabase sqlDB = databaseHandler.getWritableDatabase();
         int rowsUpdate = 0;
 
         switch (uriType){
@@ -117,7 +116,7 @@ public class MyContentProvider extends ContentProvider {
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
         int uriType =sURIMatcher.match(uri);
-        SQLiteDatabase sqlDB = myDB.getWritableDatabase();
+        SQLiteDatabase sqlDB = databaseHandler.getWritableDatabase();
         int rowsDeleted = 0;
 
         switch (uriType){

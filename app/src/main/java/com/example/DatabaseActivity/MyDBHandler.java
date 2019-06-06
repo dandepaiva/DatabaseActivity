@@ -8,15 +8,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.text.TextUtils;
 
-import com.example.DatabaseActivity.AsyncTasks.AddProductAsync;
-
 import java.util.ArrayList;
 
 public class MyDBHandler extends SQLiteOpenHelper {
     private static String TAG = "SINGLETON";
     private static MyDBHandler instance;
 
-    private ContentResolver myCR;
+    private ContentResolver contentResolver;
 
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "productDB.db";
@@ -26,18 +24,24 @@ public class MyDBHandler extends SQLiteOpenHelper {
     public static final String COLUMN_PRODUCTNAME = "productname";
     public static final String COLUMN_QUANTITY = "quantity";
 
-    public MyDBHandler(Context context) {
+
+    /**
+     * Singleton implementation of MyDBHandler
+     * (should be private but the constructor is being called by the ContentProvider)
+     * @param context Context in which it is running
+     */
+    protected MyDBHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        myCR = context.getContentResolver();
+        contentResolver = context.getContentResolver();
     }
 
     public static MyDBHandler getInstance() {
-        if(instance == null){
+        if (instance == null) {
             instance = new MyDBHandler(MyApplication.getContext());
         }
         return instance;
     }
-
+    //-------------------------Singleton Implementation----------------------------------
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_BOOK_TABLE = "CREATE TABLE " + TABLE_PRODUCTS + " ( " +
@@ -53,25 +57,28 @@ public class MyDBHandler extends SQLiteOpenHelper {
         this.onCreate(db);
     }
 
-    public static void addProductAsync(Product product){
-        AddProductAsync productAsync = new AddProductAsync();
-        productAsync.execute(product);
-    }
-
-
+    /**
+     * Add a product to the database, if it is not there yet
+     * (there is only one product with each name)
+     * @param product the Product to be added
+     */
     public static void addProduct(Product product) {
-
         ContentValues values = new ContentValues();
         values.put(COLUMN_PRODUCTNAME, product.getProductName());
         values.put(COLUMN_QUANTITY, product.getQuantity());
 
-        int onUpdate = getInstance().myCR.update(MyContentProvider.CONTENT_URI, values, MyDBHandler.COLUMN_PRODUCTNAME + " = ?", new String[]{product.getProductName()});
+        int onUpdate = getInstance().contentResolver.update(MyContentProvider.CONTENT_URI, values, MyDBHandler.COLUMN_PRODUCTNAME + " = ?", new String[]{product.getProductName()});
         if (onUpdate == 0) {
-            getInstance().myCR.insert(MyContentProvider.CONTENT_URI, values);
+            getInstance().contentResolver.insert(MyContentProvider.CONTENT_URI, values);
         }
     }
 
-    public static ArrayList<Product> findProduct(String productNameString){
+    /**
+     * Finds a product in the database, or all
+     * @param productNameString
+     * @return
+     */
+    public static ArrayList<Product> findProduct(String productNameString) {
         String whereClause = null;
         String[] whereParam = null;
 
@@ -80,7 +87,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
             whereParam = new String[]{productNameString};
         }
 
-        Cursor cursor = getInstance().myCR.query(MyContentProvider.CONTENT_URI, null, whereClause, whereParam, MyDBHandler.COLUMN_QUANTITY);
+        Cursor cursor = getInstance().contentResolver.query(MyContentProvider.CONTENT_URI, null, whereClause, whereParam, MyDBHandler.COLUMN_QUANTITY);
 
         String prodNameQuery;
         int prodQuantQuery;
@@ -102,12 +109,12 @@ public class MyDBHandler extends SQLiteOpenHelper {
         return tableRow;
     }
 
-    public static boolean deleteProduct(String productName){
+    public static boolean deleteProduct(String productName) {
         boolean result = false;
         String selection = "productname = \"" + productName + "\"";
-        int rowsDeleted = getInstance().myCR.delete(MyContentProvider.CONTENT_URI, selection, null);
+        int rowsDeleted = getInstance().contentResolver.delete(MyContentProvider.CONTENT_URI, selection, null);
 
-        if(rowsDeleted > 0){
+        if (rowsDeleted > 0) {
             result = true;
         }
 

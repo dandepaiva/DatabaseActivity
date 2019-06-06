@@ -19,30 +19,32 @@ import com.example.DatabaseActivity.data.Repository;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements LoaderComunication {
+/**
+ * This Activity allows the user to create and interact with a database of {@link Product}s
+ */
+public class MainActivity extends AppCompatActivity implements LoaderCommunication {
     private String TAG = "FIND BUTTON";
     private String TAG2 = "REPOSITORY";
 
-
+    /**
+     * global variables to be used to generate and manage a RecyclerView
+     * <p>
+     * it will be used to show the user a list of {@link Product}s in the database
+     */
     private RecyclerView recyclerView;
     private RecyclerView.Adapter recyclerViewAdapter;
     private RecyclerView.LayoutManager recyclerViewLayout;
-    //ProductsAsyncTask productsAsync;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /**
-         * reference to Views used in this Activity
-         */
-        final Button add_button = findViewById(R.id.add_button);
-        final Button find_button = findViewById(R.id.find_button);
-        final Button delete_button = findViewById(R.id.delete_button);
+        final Button addButton = findViewById(R.id.add_button);
+        final Button findButton = findViewById(R.id.find_button);
+        final Button deleteButton = findViewById(R.id.delete_button);
         final EditText productName = findViewById(R.id.product_name);
         final EditText quantity = findViewById(R.id.quantity);
-
 
         recyclerView = findViewById(R.id.products_recyclerView);
         recyclerView.setHasFixedSize(true);
@@ -50,40 +52,56 @@ public class MainActivity extends AppCompatActivity implements LoaderComunicatio
         recyclerViewLayout = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(recyclerViewLayout);
 
-
-        add_button.setOnClickListener(new View.OnClickListener() {
+        addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String productNameString = productName.getText().toString();
                 String quantityValue = quantity.getText().toString();
 
+                /** Check if you wrote the name of the product */
                 if (TextUtils.isEmpty(productNameString)) {
                     showToast(getString(R.string.no_product_name));
-                } else if (TextUtils.isEmpty(quantityValue)) {
+                }
+                /** Check if you gave it a quantity */
+                else if (TextUtils.isEmpty(quantityValue)) {
                     showToast(getString(R.string.no_product_quantity, productNameString));
-                } else if (Integer.parseInt(quantityValue) == 0) {
+                }
+                /** Check if the quantity is 0 */
+                else if (Integer.parseInt(quantityValue) == 0) {
                     showToast(getString(R.string.zero_product, productNameString));
+
                 } else {
                     Product findProduct = new Product(productNameString, Integer.parseInt(quantityValue));
-
                     Repository.getInstance().insertProduct(findProduct, new Repository.UpdateUI() {
                         @Override
                         public void updateProgress(String text) {
-                            Log.d(TAG2, "updateProgress() text = [" + text + "]");
                         }
                     });
                 }
             }
         });
 
-        find_button.setOnClickListener(new View.OnClickListener() {
+        /*
+         * Find click listener
+         * when pressing the button [Find] it will
+         * check the TextView with the name of the product
+         * send it to the {@link Repository} to be found or not in the database
+         * updated the Recycler View with the product's values
+         */
+        findButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final String productNameString = productName.getText().toString();
 
-                Repository.getInstance().findProduct(productNameString, new Repository.UpdateRecyclerView() {
+                Repository.getInstance().findProduct(productNameString, new Repository.ProductsArrayList() {
                     @Override
-                    public void updateRecyclerView(ArrayList<Product> products) {
+                    public void productsArrayList(ArrayList<Product> products) {
+                        new Runnable() {
+                            @Override
+                            public void run() {
+
+                            }
+                        };
                         recyclerViewAdapter = new MyAdapter(products);
                     }
                 });
@@ -91,22 +109,35 @@ public class MainActivity extends AppCompatActivity implements LoaderComunicatio
             }
         });
 
-        delete_button.setOnClickListener(new View.OnClickListener() {
+        /*
+         * Delete button listener
+         * when pressing the button [Delete] it will
+         * check the TextView with the name of the product
+         * send it to the {@link Repository} to be deleted or not in the database
+         * shows a {@link Toast} with a message of success or not of the query
+         */
+        deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String productNameString = productName.getText().toString();
+                final String productNameString = productName.getText().toString();
+                Repository.getInstance().deleteProduct(productNameString, new Repository.IsSuccess() {
+                    @Override
+                    public void isSuccess(boolean success) {
+                        final String message = success
+                                ? MyApplication.getContext().getString(R.string.delete_success, productNameString)
+                                : MyApplication.getContext().getString(R.string.delete_failed, productNameString);
 
-                String message = MyDBHandler.deleteProduct(productNameString)
-                        ? getString(R.string.delete_success, productNameString)
-                        : getString(R.string.delete_failed, productNameString);
-
-                showToast(message);
-
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Log.d(TAG2, "run() called" + message);
+                                showToast(message);
+                            }
+                        });
+                    }
+                });
             }
         });
-
-
-
     }
 
     /**
@@ -116,16 +147,17 @@ public class MainActivity extends AppCompatActivity implements LoaderComunicatio
      */
     public void sendProgress(int progress) {
         Log.d(TAG, "sendProgress() called with: progress = [" + progress + "]");
-        TextView loading = findViewById(R.id.loadscreen);
+        TextView loading = findViewById(R.id.load_screen);
         loading.setText(getString(R.string.progress_bar, progress));
     }
 
     /**
      * Generalization of the
      * {@link Toast#makeText(Context, int, int)} usage
+     *
      * @param text String to be written
      */
-    private void  showToast(String text) {
+    private void showToast(String text) {
         Toast.makeText(MainActivity.this, text, Toast.LENGTH_SHORT).show();
     }
 
