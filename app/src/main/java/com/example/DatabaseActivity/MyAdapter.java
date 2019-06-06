@@ -8,6 +8,11 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+/* TODO
+    JAVADOC ALL
+ */
+
+
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     private ArrayList<Product> productArrayList;
 

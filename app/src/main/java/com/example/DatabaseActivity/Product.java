@@ -21,10 +21,18 @@ public class Product {
         this.quantity = quantity;
     }
 
+    /**
+     * getter for product name
+     * @return {@link String} representing product name, can be empty or null
+     */
     public String getProductName() {
         return productName;
     }
 
+    /**
+     * setter for product name
+     * @param name The name value
+     */
     public void setProductName(String name) {
         this.productName = name;
     }
@@ -37,6 +45,9 @@ public class Product {
         this.quantity = quantity;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         return "Product: " + productName + " : " + quantity;

@@ -9,6 +9,15 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
 
+
+/* TODO
+    JAVADOC the Class
+    JAVADOC globals
+ */
+
+/**
+ * Content Provider used to interact with the Database of Products
+ */
 public class MyContentProvider extends ContentProvider {
     private MyDBHandler databaseHandler;
 

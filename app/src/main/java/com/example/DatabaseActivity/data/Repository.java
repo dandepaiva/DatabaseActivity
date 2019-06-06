@@ -7,6 +7,13 @@ import java.util.ArrayList;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+
+/* TODO
+    JAVADOC the Class
+    JAVADOC globals
+    JAVADOC interfaces
+ */
+
 public class Repository {
 
     private Executor executor = Executors.newFixedThreadPool(3);

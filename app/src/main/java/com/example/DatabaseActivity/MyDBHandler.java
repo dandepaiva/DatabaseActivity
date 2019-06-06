@@ -10,6 +10,9 @@ import android.text.TextUtils;
 
 import java.util.ArrayList;
 
+/**
+ * {@link SQLiteOpenHelper} implementation for app
+ */
 public class MyDBHandler extends SQLiteOpenHelper {
     private static String TAG = "SINGLETON";
     private static MyDBHandler instance;
@@ -58,7 +61,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
     }
 
     /**
-     * Add a product to the database, if it is not there yet
+     * Used to Add a product to the database, if it is not there yet
      * (there is only one product with each name)
      * @param product the Product to be added
      */
@@ -74,9 +77,13 @@ public class MyDBHandler extends SQLiteOpenHelper {
     }
 
     /**
-     * Finds a product in the database, or all
-     * @param productNameString
-     * @return
+     * Used to find a product
+     * @param productNameString String with the name of the product we are looking for
+     * @return ArrayList containing:<ul>
+     *     <li>one Product if it finds a Product with the given name</li>
+     *     <li>All products if String is Empty</li>
+     *     <li>Nothing if the product is not in the database</li>
+     * </ul>
      */
     public static ArrayList<Product> findProduct(String productNameString) {
         String whereClause = null;
@@ -109,6 +116,11 @@ public class MyDBHandler extends SQLiteOpenHelper {
         return tableRow;
     }
 
+    /**
+     * delete a Product from the database
+     * @param productName String with the name of the product to be looked up
+     * @return Boolean as true if product was deleted or false if it didn't find the product
+     */
     public static boolean deleteProduct(String productName) {
         boolean result = false;
         String selection = "productname = \"" + productName + "\"";

@@ -130,7 +130,6 @@ public class MainActivity extends AppCompatActivity implements LoaderCommunicati
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Log.d(TAG2, "run() called" + message);
                                 showToast(message);
                             }
                         });
@@ -146,7 +145,6 @@ public class MainActivity extends AppCompatActivity implements LoaderCommunicati
      * @param progress made at {@link ProductsAsyncTask}
      */
     public void sendProgress(int progress) {
-        Log.d(TAG, "sendProgress() called with: progress = [" + progress + "]");
         TextView loading = findViewById(R.id.load_screen);
         loading.setText(getString(R.string.progress_bar, progress));
     }
@@ -154,8 +152,9 @@ public class MainActivity extends AppCompatActivity implements LoaderCommunicati
     /**
      * Generalization of the
      * {@link Toast#makeText(Context, int, int)} usage
+     * writes it to the MainActivity
      *
-     * @param text String to be written
+     * @param text String to be written in the Toast
      */
     private void showToast(String text) {
         Toast.makeText(MainActivity.this, text, Toast.LENGTH_SHORT).show();
