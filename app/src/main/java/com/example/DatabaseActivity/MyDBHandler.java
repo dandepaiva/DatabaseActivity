@@ -19,13 +19,17 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
     private ContentResolver contentResolver;
 
+    /**
+     * Database information
+     */
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "productDB.db";
     public static final String TABLE_PRODUCTS = "products";
 
-    public static final String COLUMN_ID = "_id";
-    public static final String COLUMN_PRODUCTNAME = "productname";
-    public static final String COLUMN_QUANTITY = "quantity";
+    /**
+     * name of the columns in the database
+     */
+    public static final String COLUMN_ID = "_id", COLUMN_PRODUCT_NAME = "productname", COLUMN_QUANTITY = "quantity";
 
 
     /**
@@ -48,7 +52,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_BOOK_TABLE = "CREATE TABLE " + TABLE_PRODUCTS + " ( " +
-                COLUMN_PRODUCTNAME + " TEXT, " +
+                COLUMN_PRODUCT_NAME + " TEXT, " +
                 COLUMN_QUANTITY + " INTEGER )";
 
         db.execSQL(CREATE_BOOK_TABLE);
@@ -67,10 +71,10 @@ public class MyDBHandler extends SQLiteOpenHelper {
      */
     public static void addProduct(Product product) {
         ContentValues values = new ContentValues();
-        values.put(COLUMN_PRODUCTNAME, product.getProductName());
+        values.put(COLUMN_PRODUCT_NAME, product.getProductName());
         values.put(COLUMN_QUANTITY, product.getQuantity());
 
-        int onUpdate = getInstance().contentResolver.update(MyContentProvider.CONTENT_URI, values, MyDBHandler.COLUMN_PRODUCTNAME + " = ?", new String[]{product.getProductName()});
+        int onUpdate = getInstance().contentResolver.update(MyContentProvider.CONTENT_URI, values, MyDBHandler.COLUMN_PRODUCT_NAME + " = ?", new String[]{product.getProductName()});
         if (onUpdate == 0) {
             getInstance().contentResolver.insert(MyContentProvider.CONTENT_URI, values);
         }
@@ -90,7 +94,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
         String[] whereParam = null;
 
         if (!TextUtils.isEmpty(productNameString)) {
-            whereClause = MyDBHandler.COLUMN_PRODUCTNAME + " = ?";
+            whereClause = MyDBHandler.COLUMN_PRODUCT_NAME + " = ?";
             whereParam = new String[]{productNameString};
         }
 
@@ -104,7 +108,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 productQuery = new Product();
-                prodNameQuery = cursor.getString(cursor.getColumnIndex(MyDBHandler.COLUMN_PRODUCTNAME));
+                prodNameQuery = cursor.getString(cursor.getColumnIndex(MyDBHandler.COLUMN_PRODUCT_NAME));
                 prodQuantQuery = Integer.parseInt(cursor.getString(cursor.getColumnIndex(MyDBHandler.COLUMN_QUANTITY)));
                 productQuery.setProductName(prodNameQuery);
                 productQuery.setQuantity(prodQuantQuery);

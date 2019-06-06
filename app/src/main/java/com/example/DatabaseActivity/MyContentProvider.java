@@ -21,21 +21,30 @@ import android.text.TextUtils;
 public class MyContentProvider extends ContentProvider {
     private MyDBHandler databaseHandler;
 
+    /**
+     * URI to the database of Products
+     */
     private static final String AUTHORITY = "com.example.DatabaseActivity.provider.MyContentProvider";
     private static final String PRODUCTS_TABLE = "products";
     public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + PRODUCTS_TABLE);
 
+    /**
+     * Column IDs
+     */
     public static final int PRODUCTS = 1;
     public static final int PRODUCTS_ID = 2;
 
+
+    /* TODO
+        check URIMatcher
+     */
     private static final UriMatcher sURIMatcher = new UriMatcher(UriMatcher.NO_MATCH);
     static {
         sURIMatcher.addURI(AUTHORITY, PRODUCTS_TABLE, PRODUCTS);
         sURIMatcher.addURI(AUTHORITY, PRODUCTS_TABLE + "/#", PRODUCTS_ID);
     }
 
-    public MyContentProvider() {
-    }
+    public MyContentProvider() {}
 
     @Override
     public boolean onCreate() {
@@ -43,6 +52,10 @@ public class MyContentProvider extends ContentProvider {
         return true;
     }
 
+
+    /**
+     * UNUSED
+     */
     @Override
     public Uri insert(Uri uri, ContentValues values) {
         int uriType = sURIMatcher.match(uri);
