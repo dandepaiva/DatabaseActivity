@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.DatabaseActivity.AsyncTasks.ProductsAsyncTask;
+import com.example.DatabaseActivity.data.Remote;
 import com.example.DatabaseActivity.data.Repository;
 
 import java.util.ArrayList;
@@ -52,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements LoaderCommunicati
         recyclerViewLayout = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(recyclerViewLayout);
 
-        addButton.setOnClickListener(new View.OnClickListener() {
+        addButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String productNameString = productName.getText().toString();
@@ -120,6 +121,7 @@ public class MainActivity extends AppCompatActivity implements LoaderCommunicati
             @Override
             public void onClick(View v) {
                 final String productNameString = productName.getText().toString();
+
                 Repository.getInstance().deleteProduct(productNameString, new Repository.IsSuccess() {
                     @Override
                     public void isSuccess(boolean success) {

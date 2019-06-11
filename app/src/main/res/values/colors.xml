@@ -5,4 +5,5 @@
     <color name="colorDark">#01245F</color>
     <color name="colorLight">#F0F7FF</color>
     <color name="colorButton">#86B2FF</color>
+    <color name="black">#000000</color>
 </resources>

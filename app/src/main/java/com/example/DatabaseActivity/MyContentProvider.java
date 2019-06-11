@@ -35,10 +35,12 @@ public class MyContentProvider extends ContentProvider {
     public static final int PRODUCTS_ID = 2;
 
 
-    /* TODO
-        check URIMatcher
-     */
+    /** Creates a UriMatcher object */
     private static final UriMatcher sURIMatcher = new UriMatcher(UriMatcher.NO_MATCH);
+
+    /**
+     * <u>All</u> the content URI patterns that the provider recognizes
+     */
     static {
         sURIMatcher.addURI(AUTHORITY, PRODUCTS_TABLE, PRODUCTS);
         sURIMatcher.addURI(AUTHORITY, PRODUCTS_TABLE + "/#", PRODUCTS_ID);

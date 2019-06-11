@@ -17,7 +17,6 @@ import java.util.concurrent.Executors;
 public class Repository {
 
     private Executor executor = Executors.newFixedThreadPool(3);
-
     /**
      * Bill Pugh Singleton Implementation
      */
