@@ -1,5 +1,6 @@
 package com.example.DatabaseActivity.data;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,16 +15,17 @@ import java.util.ArrayList;
 
 /**
  * {@link RecyclerView.Adapter} implementation
- *
+ * <p>
  * Show employees in a RecyclerView
  */
 public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.EmployeeViewHolder> implements InteractListener {
     private static final String TAG = "EmployeeAdapter";
     protected ArrayList<Employee> employeeArrayList;
-    private InteractListener callback;
 
     Employee recentlyDeleted;
     int recentlyDeletedPosition;
+
+    private InteractListener callback;
 
     /**
      * constructor
@@ -34,7 +36,7 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
 
     @Override
     public EmployeeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View line = LayoutInflater.from(parent.getContext()).inflate(R.layout.employee_recycler_view,parent, false);
+        View line = LayoutInflater.from(parent.getContext()).inflate(R.layout.employee_recycler_view, parent, false);
 
         EmployeeViewHolder employeeViewHolder = new EmployeeViewHolder(line);
         return employeeViewHolder;
@@ -88,10 +90,10 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
 
     /**
      * {@link RecyclerView.ViewHolder} implementation
-     *
+     * <p>
      * ViewHolder for this Adapter
      */
-    public static class EmployeeViewHolder extends RecyclerView.ViewHolder{
+    public static class EmployeeViewHolder extends RecyclerView.ViewHolder {
         public TextView employeeName;
         public TextView employeeAge;
         public TextView employeeId;
@@ -100,6 +102,7 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
 
         /**
          * constructor
+         *
          * @param itemView View inside RecyclerView to show employee
          */
         public EmployeeViewHolder(View itemView) {
@@ -113,11 +116,12 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
 
         /**
          * called when binding the ViewHolder
+         *
          * @param employeeBind Employee to
-         * @param callback InteractListener Interface, communication between ViewHolder
-         *                 and Adapter
+         * @param callback     InteractListener Interface, communication between ViewHolder
+         *                     and Adapter
          */
-        public void onBind(Employee employeeBind, final InteractListener callback){
+        public void onBind(Employee employeeBind, final InteractListener callback) {
             employeeName.setText("name: " + employeeBind.getEmployeeName());
             employeeAge.setText("age: " + employeeBind.getEmployeeAge());
             employeeId.setText("id: " + employeeBind.getId());
@@ -129,7 +133,7 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
                     /**
                      * callback is an instance of the interface
                      */
-                    if (callback!=null){
+                    if (callback != null) {
                         callback.onDelete(position);
                     }
                 }
