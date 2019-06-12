@@ -17,14 +17,14 @@ public class MyDBHandler extends SQLiteOpenHelper {
     private static String TAG = "SINGLETON";
     private static MyDBHandler instance;
 
-    private ContentResolver contentResolver;
+    private final ContentResolver contentResolver;
 
     /**
      * Database information
      */
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "productDB.db";
-    public static final String TABLE_PRODUCTS = "products";
+    static final String TABLE_PRODUCTS = "products";
 
     /**
      * name of the columns in the database
@@ -37,12 +37,12 @@ public class MyDBHandler extends SQLiteOpenHelper {
      * (should be private but the constructor is being called by the ContentProvider)
      * @param context Context in which it is running
      */
-    protected MyDBHandler(Context context) {
+    MyDBHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         contentResolver = context.getContentResolver();
     }
 
-    public static MyDBHandler getInstance() {
+    private static MyDBHandler getInstance() {
         if (instance == null) {
             instance = new MyDBHandler(MyApplication.getContext());
         }
@@ -101,17 +101,19 @@ public class MyDBHandler extends SQLiteOpenHelper {
         Cursor cursor = getInstance().contentResolver.query(MyContentProvider.CONTENT_URI, null, whereClause, whereParam, MyDBHandler.COLUMN_QUANTITY);
 
         String prodNameQuery;
-        int prodQuantQuery;
+        int prodQuantityQuery;
         Product productQuery;
         ArrayList<Product> tableRow = new ArrayList<>();
 
+
+        //cursor can be null !?
         if (cursor.moveToFirst()) {
             do {
                 productQuery = new Product();
                 prodNameQuery = cursor.getString(cursor.getColumnIndex(MyDBHandler.COLUMN_PRODUCT_NAME));
-                prodQuantQuery = Integer.parseInt(cursor.getString(cursor.getColumnIndex(MyDBHandler.COLUMN_QUANTITY)));
+                prodQuantityQuery = Integer.parseInt(cursor.getString(cursor.getColumnIndex(MyDBHandler.COLUMN_QUANTITY)));
                 productQuery.setProductName(prodNameQuery);
-                productQuery.setQuantity(prodQuantQuery);
+                productQuery.setQuantity(prodQuantityQuery);
 
                 tableRow.add(productQuery);
             } while (cursor.moveToNext());

@@ -14,7 +14,7 @@
         android:layout_marginLeft="96dp"
         android:layout_marginTop="24dp"
         android:backgroundTint="@color/colorButton"
-        android:text="Add"
+        android:text="@string/add"
         android:textColor="@color/colorDark"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/quantity" />
@@ -27,7 +27,7 @@
         android:layout_marginLeft="40dp"
         android:layout_marginTop="24dp"
         android:backgroundTint="@color/colorButton"
-        android:text="Find"
+        android:text="@string/find"
         android:textColor="@color/colorDark"
         app:layout_constraintStart_toEndOf="@+id/add_button"
         app:layout_constraintTop_toBottomOf="@+id/quantity" />

@@ -21,5 +21,15 @@
     <string name="delete_failed">"Did not find any %1$s" </string>
 
     <string name="progress_bar">"progress: %1$d"</string>
-    <string name="async_throttle">"produto %1$d"</string>
+    <string name="async_throttle">"product %1$d"</string>
+    <string name="show_employees_button_text">Show Employees</string>
+    <string name="add">Add</string>
+    <string name="find">Find</string>
+    <string name="bind_employee_name">"name: %1$s"</string>
+    <string name="bind_employee_age">"age: %1$d"</string>
+    <string name="bind_employee_id">"id: %1$d"</string>
+    <string name="bind_employee_salary">"salary: %1$d"</string>
+
+    <string name="my_adapter_units">"\t%1$d units"</string>
+    <string name="delete_element">Delete this element</string>
 </resources>

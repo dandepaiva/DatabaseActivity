@@ -20,19 +20,19 @@ import java.util.Set;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-public class Remote {
+class Remote {
     private Executor executor = Executors.newFixedThreadPool(3);
-    private String TAG = "REMOTEEXECUTION";
+    private String TAG = "REMOTE EXECUTION";
 
     private Set<SendData> sendDataSet = new HashSet<>();
     private Remote() {
     }
 
-    public static Remote getInstance() {
+    static Remote getInstance() {
         return Singleton.INSTANCE;
     }
 
-    public void getRemote(final SendData sendData) {
+    void getRemote(final SendData sendData) {
         addSendDataSet(sendData);
 
         Runnable remoteRunnable = new Runnable() {
@@ -100,11 +100,11 @@ public class Remote {
         executor.execute(remoteRunnable);
     }
 
-    public void addSendDataSet(SendData sendData) {
+    void addSendDataSet(SendData sendData) {
         sendDataSet.add(sendData);
     }
 
-    public void removeSendDataSet(SendData sendData) {
+    void removeSendDataSet(SendData sendData) {
         sendDataSet.remove(sendData);
     }
 

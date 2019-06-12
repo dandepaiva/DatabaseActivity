@@ -26,9 +26,7 @@ public class SharedPrefsUtil {
         SharedPreferences sharedPref = MyApplication.getContext().getSharedPreferences(
                 PREFERENCES_NAME, Context.MODE_PRIVATE);
 
-        boolean isInserted = sharedPref.getBoolean(PREFS_KEY_INSERT, false);
-
-        return isInserted;
+        return sharedPref.getBoolean(PREFS_KEY_INSERT, false);
     }
 
     /**

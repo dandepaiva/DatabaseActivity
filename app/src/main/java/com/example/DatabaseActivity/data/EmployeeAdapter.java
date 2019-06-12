@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.example.DatabaseActivity.MyApplication;
 import com.example.DatabaseActivity.R;
 
 import java.util.ArrayList;
@@ -38,8 +39,7 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
     public EmployeeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View line = LayoutInflater.from(parent.getContext()).inflate(R.layout.employee_recycler_view, parent, false);
 
-        EmployeeViewHolder employeeViewHolder = new EmployeeViewHolder(line);
-        return employeeViewHolder;
+        return new EmployeeViewHolder(line);
     }
 
     @Override
@@ -94,11 +94,11 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
      * ViewHolder for this Adapter
      */
     public static class EmployeeViewHolder extends RecyclerView.ViewHolder {
-        public TextView employeeName;
-        public TextView employeeAge;
-        public TextView employeeId;
-        public TextView employeeSalary;
-        public ImageButton trashcanButton;
+        public final TextView employeeName;
+        public final TextView employeeAge;
+        public final TextView employeeId;
+        public final TextView employeeSalary;
+        public final ImageButton trashcanButton;
 
         /**
          * constructor
@@ -117,15 +117,17 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
         /**
          * called when binding the ViewHolder
          *
-         * @param employeeBind Employee to
+         * @param employee Employee to bind
          * @param callback     InteractListener Interface, communication between ViewHolder
          *                     and Adapter
          */
-        public void onBind(Employee employeeBind, final InteractListener callback) {
-            employeeName.setText("name: " + employeeBind.getEmployeeName());
-            employeeAge.setText("age: " + employeeBind.getEmployeeAge());
-            employeeId.setText("id: " + employeeBind.getId());
-            employeeSalary.setText("salary: " + employeeBind.getEmployeeSalary());
+        public void onBind(Employee employee, final InteractListener callback) {
+            Context context = MyApplication.getContext();
+            employeeName.setText(context.getString(R.string.bind_employee_name, employee.getEmployeeName()));
+            employeeAge.setText(context.getString(R.string.bind_employee_age, employee.getEmployeeAge()));
+            employeeId.setText(context.getString(R.string.bind_employee_id, employee.getId()));
+            employeeSalary.setText(context.getString(R.string.bind_employee_salary, employee.getEmployeeSalary()));
+
             trashcanButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

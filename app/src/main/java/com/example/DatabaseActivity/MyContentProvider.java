@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 
@@ -59,17 +60,17 @@ public class MyContentProvider extends ContentProvider {
      * UNUSED
      */
     @Override
-    public Uri insert(Uri uri, ContentValues values) {
+    public Uri insert(@NonNull Uri uri, ContentValues values) {
         int uriType = sURIMatcher.match(uri);
         SQLiteDatabase sqlDB = databaseHandler.getWritableDatabase();
-        long id = 0;
+        long id;
 
-        switch (uriType){
-            case PRODUCTS:
-                id = sqlDB.insert(MyDBHandler.TABLE_PRODUCTS, null, values);
-                break;
-                default:
-                    throw new IllegalArgumentException("Unknown URI: " + uri);
+
+        // RECOMMENDED TO USE IF INSTEAD OF SWITCH
+        if(uriType == PRODUCTS) {
+            id = sqlDB.insert(MyDBHandler.TABLE_PRODUCTS, null, values);
+        } else {
+            throw new IllegalArgumentException("Unknown URI: " + uri);
         }
 
         //to use notifyChange: getContext() -> getContentResolver()
@@ -78,7 +79,7 @@ public class MyContentProvider extends ContentProvider {
     }
 
     @Override
-    public Cursor query(Uri uri, String[] projection, String selection,
+    public Cursor query(@NonNull Uri uri, String[] projection, String selection,
                         String[] selectionArgs, String sortOrder) {
         SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
         queryBuilder.setTables(MyDBHandler.TABLE_PRODUCTS);
@@ -103,7 +104,7 @@ public class MyContentProvider extends ContentProvider {
     }
 
     @Override
-    public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+    public int update(@NonNull Uri uri, ContentValues values, String selection, String[] selectionArgs) {
         int uriType = sURIMatcher.match(uri);
         SQLiteDatabase sqlDB = databaseHandler.getWritableDatabase();
         int rowsUpdate = 0;
@@ -138,7 +139,7 @@ public class MyContentProvider extends ContentProvider {
 
 
     @Override
-    public int delete(Uri uri, String selection, String[] selectionArgs) {
+    public int delete(@NonNull Uri uri, String selection, String[] selectionArgs) {
         int uriType =sURIMatcher.match(uri);
         SQLiteDatabase sqlDB = databaseHandler.getWritableDatabase();
         int rowsDeleted = 0;
@@ -166,7 +167,7 @@ public class MyContentProvider extends ContentProvider {
     }
 
     @Override
-    public String getType(Uri uri) {
+    public String getType(@NonNull Uri uri) {
         // TODO: Implement this to handle requests for the MIME type of the data
         // at the given URI.
         throw new UnsupportedOperationException("Not yet implemented");

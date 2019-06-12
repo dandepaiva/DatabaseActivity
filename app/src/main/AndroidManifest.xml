@@ -16,12 +16,12 @@
             android:name=".MyContentProvider"
             android:authorities="com.example.DatabaseActivity.provider.MyContentProvider"
             android:enabled="true"
-            android:exported="true"></provider>
+            android:exported="true"/>
 
         <activity android:name=".MainActivity">
-
         </activity>
         <activity android:name=".data.EmployeeActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

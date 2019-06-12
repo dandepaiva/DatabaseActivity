@@ -14,10 +14,10 @@ import java.lang.ref.WeakReference;
 
 
 public class ProductsAsyncTask extends AsyncTask<Void, Integer, Void> {
-    public static final String TAG = "ProductsAsyncTask";
+    private static final String TAG = "ProductsAsyncTask";
     private LoaderCommunication loaderCommunication;
 
-    WeakReference<Activity> activityMain;
+    private WeakReference<Activity> activityMain;
 
     public ProductsAsyncTask(Activity activityMain) {
         this.activityMain = new WeakReference<>(activityMain);

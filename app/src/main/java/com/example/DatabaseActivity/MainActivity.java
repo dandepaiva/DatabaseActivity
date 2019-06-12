@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,7 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.DatabaseActivity.AsyncTasks.ProductsAsyncTask;
-import com.example.DatabaseActivity.data.Remote;
 import com.example.DatabaseActivity.data.Repository;
 
 import java.util.ArrayList;
@@ -34,7 +32,6 @@ public class MainActivity extends AppCompatActivity implements LoaderCommunicati
      */
     private RecyclerView recyclerView;
     private RecyclerView.Adapter recyclerViewAdapter;
-    private RecyclerView.LayoutManager recyclerViewLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements LoaderCommunicati
         recyclerView = findViewById(R.id.products_recyclerView);
         recyclerView.setHasFixedSize(true);
 
-        recyclerViewLayout = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager recyclerViewLayout = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(recyclerViewLayout);
 
         addButton.setOnClickListener( new View.OnClickListener() {
