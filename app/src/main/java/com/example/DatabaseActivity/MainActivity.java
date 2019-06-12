@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements LoaderCommunicati
 
         /*
          * Find click listener
-         * when pressing the button [Find] it will
+         * when pressing the trashcanButton [Find] it will
          * check the TextView with the name of the product
          * send it to the {@link Repository} to be found or not in the database
          * updated the Recycler View with the product's values
@@ -111,8 +111,8 @@ public class MainActivity extends AppCompatActivity implements LoaderCommunicati
         });
 
         /*
-         * Delete button listener
-         * when pressing the button [Delete] it will
+         * Delete trashcanButton listener
+         * when pressing the trashcanButton [Delete] it will
          * check the TextView with the name of the product
          * send it to the {@link Repository} to be deleted or not in the database
          * shows a {@link Toast} with a message of success or not of the query

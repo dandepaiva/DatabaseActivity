@@ -1,17 +1,13 @@
 package com.example.DatabaseActivity.data;
 
-import android.content.Context;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.example.DatabaseActivity.MyApplication;
 import com.example.DatabaseActivity.R;
 
 import java.util.ArrayList;
@@ -21,11 +17,10 @@ import java.util.ArrayList;
  *
  * Show employees in a RecyclerView
  */
-public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.EmployeeViewHolder> implements DeleteClickListener, UndoClickListener{
+public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.EmployeeViewHolder> implements InteractListener {
     private static final String TAG = "EmployeeAdapter";
     protected ArrayList<Employee> employeeArrayList;
-    private DeleteClickListener callback;
-    public EmployeeAdapter employeeAdapter = this;
+    private InteractListener callback;
 
     Employee recentlyDeleted;
     int recentlyDeletedPosition;
@@ -47,7 +42,7 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
 
     @Override
     public void onBindViewHolder(EmployeeViewHolder employeeViewHolder, int i) {
-        employeeViewHolder.onBind(employeeArrayList.get(i), this);
+        employeeViewHolder.onBind(employeeArrayList.get(i), callback);
     }
 
     @Override
@@ -69,20 +64,14 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
         recentlyDeletedPosition = position;
         /**
          * remove employee from the array
-         * notify the RecyclerView
+         * notify the EmployeeAdapter
          */
         employeeArrayList.remove(position);
         notifyItemRemoved(position);
-        if (callback != null) {
-            /**
-             * calls the onDelete of the EmployeeActivity
-             */
-            callback.onDelete(recentlyDeletedPosition);
-        }
+
     }
 
-
-    public void setCallback(DeleteClickListener callback) {
+    public void setCallback(InteractListener callback) {
         this.callback = callback;
     }
 
@@ -90,7 +79,6 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
         callback = null;
     }
 
-    @Override
     public void undoDelete() {
         Log.d(TAG, "undoDelete() called");
 
@@ -108,7 +96,7 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
         public TextView employeeAge;
         public TextView employeeId;
         public TextView employeeSalary;
-        public ImageButton button;
+        public ImageButton trashcanButton;
 
         /**
          * constructor
@@ -120,21 +108,21 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
             employeeAge = itemView.findViewById(R.id.employee_age);
             employeeId = itemView.findViewById(R.id.employee_id);
             employeeSalary = itemView.findViewById(R.id.employee_salary);
-            button = itemView.findViewById(R.id.trash_button);
+            trashcanButton = itemView.findViewById(R.id.trash_button);
         }
 
         /**
          * called when binding the ViewHolder
          * @param employeeBind Employee to
-         * @param callback DeleteClickListener Interface, communication between ViewHolder
+         * @param callback InteractListener Interface, communication between ViewHolder
          *                 and Adapter
          */
-        public void onBind(Employee employeeBind, final DeleteClickListener callback){
+        public void onBind(Employee employeeBind, final InteractListener callback){
             employeeName.setText("name: " + employeeBind.getEmployeeName());
             employeeAge.setText("age: " + employeeBind.getEmployeeAge());
             employeeId.setText("id: " + employeeBind.getId());
             employeeSalary.setText("salary: " + employeeBind.getEmployeeSalary());
-            button.setOnClickListener(new View.OnClickListener() {
+            trashcanButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     int position = getLayoutPosition();

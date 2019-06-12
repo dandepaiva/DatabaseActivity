@@ -19,7 +19,7 @@ import java.util.ArrayList;
  *   EmployeeAdapter
  *
  */
-public class EmployeeActivity extends Activity implements Remote.SendData, DeleteClickListener {
+public class EmployeeActivity extends Activity implements Remote.SendData, InteractListener {
     private static final String TAG = "EmployeeActivity";
     private RecyclerView recyclerView;
     private EmployeeAdapter employeeAdapter;
@@ -45,7 +45,7 @@ public class EmployeeActivity extends Activity implements Remote.SendData, Delet
          * Attach the ItemTouchHelper to the recyclerView
          */
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(
-                new SwipeToDeleteEmployee(employeeAdapter));
+                new SwipeToDeleteEmployee(this));
         itemTouchHelper.attachToRecyclerView(recyclerView);
         //---------------------------------------------------
 
@@ -83,23 +83,19 @@ public class EmployeeActivity extends Activity implements Remote.SendData, Delet
      */
     @Override
     public void onDelete(int position) {
+        employeeAdapter.onDelete(position);
         Log.d(TAG, "onDelete() called with: position = [" + position + "]");
-        undoClickListener = employeeAdapter.employeeAdapter;
-        View contextView = findViewById(R.id.recyclerView);
-        Snackbar snackbar = Snackbar.make(contextView, "Deleted the employee in position: " + position, Snackbar.LENGTH_LONG);
+
+        Snackbar snackbar = Snackbar.make(recyclerView,
+                "Deleted the employee in position: " + position,
+                Snackbar.LENGTH_LONG);
         /**
          * Listener for the Undo Button in the snackbar
          */
         snackbar.setAction("Undo action", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(undoClickListener!=null) {
-                            /**
-                             * if Undo is pressed, warn Adapter
-                             * to update the RecyclerView
-                             */
-                            undoClickListener.undoDelete();
-                        }
+                        employeeAdapter.undoDelete();
                     }
                 });
         snackbar.show();

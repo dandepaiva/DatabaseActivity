@@ -2,7 +2,7 @@ package com.example.DatabaseActivity.data;
 
 import android.view.View;
 
-public interface DeleteClickListener {
+public interface InteractListener {
     void onDelete(int position);
 }
 

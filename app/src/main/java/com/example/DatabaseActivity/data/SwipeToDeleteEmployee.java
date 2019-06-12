@@ -4,18 +4,21 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
 public class SwipeToDeleteEmployee extends ItemTouchHelper.SimpleCallback {
-    private EmployeeAdapter employeeAdapter;
+    private InteractListener swipeListener;
 
 
-    public SwipeToDeleteEmployee(EmployeeAdapter employeeAdapter) {
+    public SwipeToDeleteEmployee(InteractListener swipeListener) {
         super(0, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT); // ItemTouchHelper.LEFT to be added later
-        this.employeeAdapter = employeeAdapter;
+        this.swipeListener = swipeListener;
     }
 
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
         int position = viewHolder.getAdapterPosition();
-        employeeAdapter.onDelete(position);
+        if (swipeListener != null)
+        {
+            swipeListener.onDelete(position);
+        }
     }
 
 
