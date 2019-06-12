@@ -5,3 +5,4 @@ import android.view.View;
 public interface DeleteClickListener {
     void onDelete(int position);
 }
+

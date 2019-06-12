@@ -1,6 +1,7 @@
 package com.example.DatabaseActivity.data;
 
 import android.content.Context;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,10 +21,14 @@ import java.util.ArrayList;
  *
  * Show employees in a RecyclerView
  */
-public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.EmployeeViewHolder> implements DeleteClickListener{
+public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.EmployeeViewHolder> implements DeleteClickListener, UndoClickListener{
     private static final String TAG = "EmployeeAdapter";
     protected ArrayList<Employee> employeeArrayList;
     private DeleteClickListener callback;
+    public EmployeeAdapter employeeAdapter = this;
+
+    Employee recentlyDeleted;
+    int recentlyDeletedPosition;
 
     /**
      * constructor
@@ -57,12 +62,25 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
 
     @Override
     public void onDelete(int position) {
+        /**
+         * Save the employee being deleted to have the undo option
+         */
+        recentlyDeleted = employeeArrayList.get(position);
+        recentlyDeletedPosition = position;
+        /**
+         * remove employee from the array
+         * notify the RecyclerView
+         */
         employeeArrayList.remove(position);
         notifyItemRemoved(position);
         if (callback != null) {
-            callback.onDelete(position);
+            /**
+             * calls the onDelete of the EmployeeActivity
+             */
+            callback.onDelete(recentlyDeletedPosition);
         }
     }
+
 
     public void setCallback(DeleteClickListener callback) {
         this.callback = callback;
@@ -70,6 +88,14 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
 
     public void invalidate() {
         callback = null;
+    }
+
+    @Override
+    public void undoDelete() {
+        Log.d(TAG, "undoDelete() called");
+
+        employeeArrayList.add(recentlyDeletedPosition, recentlyDeleted);
+        notifyItemInserted(recentlyDeletedPosition);
     }
 
     /**
@@ -83,7 +109,6 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
         public TextView employeeId;
         public TextView employeeSalary;
         public ImageButton button;
-        Employee employeeBind;
 
         /**
          * constructor
@@ -98,6 +123,12 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
             button = itemView.findViewById(R.id.trash_button);
         }
 
+        /**
+         * called when binding the ViewHolder
+         * @param employeeBind Employee to
+         * @param callback DeleteClickListener Interface, communication between ViewHolder
+         *                 and Adapter
+         */
         public void onBind(Employee employeeBind, final DeleteClickListener callback){
             employeeName.setText("name: " + employeeBind.getEmployeeName());
             employeeAge.setText("age: " + employeeBind.getEmployeeAge());
@@ -107,7 +138,9 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
                 @Override
                 public void onClick(View v) {
                     int position = getLayoutPosition();
-
+                    /**
+                     * callback is an instance of the interface
+                     */
                     if (callback!=null){
                         callback.onDelete(position);
                     }
