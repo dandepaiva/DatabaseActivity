@@ -1,4 +1,4 @@
-package com.example.DatabaseActivity.data;
+package com.example.DatabaseActivity.employeeVisualizer;
 
 import android.graphics.Canvas;
 import android.graphics.Color;

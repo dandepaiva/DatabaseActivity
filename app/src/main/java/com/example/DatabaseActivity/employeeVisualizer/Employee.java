@@ -1,4 +1,4 @@
-package com.example.DatabaseActivity.data;
+package com.example.DatabaseActivity.employeeVisualizer;
 
 import android.support.annotation.NonNull;
 

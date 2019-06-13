@@ -6,8 +6,8 @@ import android.util.Log;
 
 import com.example.DatabaseActivity.LoaderCommunication;
 import com.example.DatabaseActivity.MyApplication;
-import com.example.DatabaseActivity.MyDBHandler;
-import com.example.DatabaseActivity.Product;
+import com.example.DatabaseActivity.shoppingList.MyDBHandler;
+import com.example.DatabaseActivity.shoppingList.Product;
 import com.example.DatabaseActivity.R;
 
 import java.lang.ref.WeakReference;

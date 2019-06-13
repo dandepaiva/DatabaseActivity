@@ -1,4 +1,4 @@
-package com.example.DatabaseActivity.data;
+package com.example.DatabaseActivity.employeeVisualizer;
 
 import android.util.Log;
 
@@ -15,7 +15,6 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -49,8 +48,7 @@ class Remote {
                             @Override
                             public void onResponse(String response) {
                                 Gson gson = new Gson();
-                                Type dataListType = new TypeToken<List<Employee>>() {
-                                }.getType();
+                                Type dataListType = new TypeToken<ArrayList<Employee>>() {}.getType();
                                 ArrayList<Employee> employeesList = gson.fromJson(response, dataListType);
 
                                 /*

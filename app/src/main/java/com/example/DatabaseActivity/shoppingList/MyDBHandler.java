@@ -1,4 +1,4 @@
-package com.example.DatabaseActivity;
+package com.example.DatabaseActivity.shoppingList;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -7,6 +7,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.text.TextUtils;
+
+import com.example.DatabaseActivity.MyApplication;
 
 import java.util.ArrayList;
 

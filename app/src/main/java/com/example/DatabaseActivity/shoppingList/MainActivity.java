@@ -1,4 +1,4 @@
-package com.example.DatabaseActivity;
+package com.example.DatabaseActivity.shoppingList;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -14,7 +14,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.DatabaseActivity.AsyncTasks.ProductsAsyncTask;
-import com.example.DatabaseActivity.data.Repository;
+import com.example.DatabaseActivity.LoaderCommunication;
+import com.example.DatabaseActivity.MyApplication;
+import com.example.DatabaseActivity.R;
+import com.example.DatabaseActivity.Repository;
 
 import java.util.ArrayList;
 

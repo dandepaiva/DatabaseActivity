@@ -13,16 +13,16 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:theme="@style/AppTheme">
         <provider
-            android:name=".MyContentProvider"
+            android:name=".shoppingList.MyContentProvider"
             android:authorities="com.example.DatabaseActivity.provider.MyContentProvider"
             android:enabled="true"
             android:exported="true"/>
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".shoppingList.MainActivity">
 
         </activity>
 
-        <activity android:name=".data.EmployeeActivity">
+        <activity android:name=".employeeVisualizer.EmployeeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

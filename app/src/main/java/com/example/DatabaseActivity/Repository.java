@@ -1,7 +1,7 @@
-package com.example.DatabaseActivity.data;
+package com.example.DatabaseActivity;
 
-import com.example.DatabaseActivity.MyDBHandler;
-import com.example.DatabaseActivity.Product;
+import com.example.DatabaseActivity.shoppingList.MyDBHandler;
+import com.example.DatabaseActivity.shoppingList.Product;
 
 import java.util.ArrayList;
 import java.util.concurrent.Executor;

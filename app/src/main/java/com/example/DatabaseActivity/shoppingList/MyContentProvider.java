@@ -1,4 +1,4 @@
-package com.example.DatabaseActivity;
+package com.example.DatabaseActivity.shoppingList;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;

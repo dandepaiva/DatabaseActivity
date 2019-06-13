@@ -6,9 +6,9 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.DatabaseActivity.MyApplication;
-import com.example.DatabaseActivity.MyContentProvider;
-import com.example.DatabaseActivity.MyDBHandler;
-import com.example.DatabaseActivity.Product;
+import com.example.DatabaseActivity.shoppingList.MyContentProvider;
+import com.example.DatabaseActivity.shoppingList.MyDBHandler;
+import com.example.DatabaseActivity.shoppingList.Product;
 
 public class AddProductAsync extends AsyncTask<Product, Product, Void> {
 
