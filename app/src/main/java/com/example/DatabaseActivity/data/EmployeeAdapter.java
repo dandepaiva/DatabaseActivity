@@ -1,6 +1,7 @@
 package com.example.DatabaseActivity.data;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -35,15 +36,16 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
         this.employeeArrayList = new ArrayList<Employee>();
     }
 
+    @NonNull
     @Override
-    public EmployeeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public EmployeeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View line = LayoutInflater.from(parent.getContext()).inflate(R.layout.employee_recycler_view, parent, false);
 
         return new EmployeeViewHolder(line);
     }
 
     @Override
-    public void onBindViewHolder(EmployeeViewHolder employeeViewHolder, int i) {
+    public void onBindViewHolder(@NonNull EmployeeViewHolder employeeViewHolder, int i) {
         employeeViewHolder.onBind(employeeArrayList.get(i), callback);
     }
 

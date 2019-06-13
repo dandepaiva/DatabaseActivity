@@ -107,7 +107,7 @@ public class MyContentProvider extends ContentProvider {
     public int update(@NonNull Uri uri, ContentValues values, String selection, String[] selectionArgs) {
         int uriType = sURIMatcher.match(uri);
         SQLiteDatabase sqlDB = databaseHandler.getWritableDatabase();
-        int rowsUpdate = 0;
+        int rowsUpdate;
 
         switch (uriType){
             case PRODUCTS:
@@ -142,7 +142,7 @@ public class MyContentProvider extends ContentProvider {
     public int delete(@NonNull Uri uri, String selection, String[] selectionArgs) {
         int uriType =sURIMatcher.match(uri);
         SQLiteDatabase sqlDB = databaseHandler.getWritableDatabase();
-        int rowsDeleted = 0;
+        int rowsDeleted;
 
         switch (uriType){
             case PRODUCTS:

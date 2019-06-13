@@ -1,5 +1,7 @@
 package com.example.DatabaseActivity;
 
+import android.support.annotation.NonNull;
+
 /**
  * Object containing a String and an Integer
  * supposed to represent the name of the product
@@ -48,6 +50,7 @@ public class Product {
     /**
      * {@inheritDoc}
      */
+    @NonNull
     @Override
     public String toString() {
         return "Product: " + productName + " : " + quantity;

@@ -11,7 +11,10 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.DatabaseActivity.R;
+import com.example.DatabaseActivity.SharedPrefsUtil;
+import com.google.gson.Gson;
 
+import java.net.URL;
 import java.util.ArrayList;
 
 /*  TODO
@@ -46,7 +49,6 @@ public class EmployeeActivity extends Activity implements Remote.SendData, Inter
                 new SwipeToDeleteCallback(this));
         itemTouchHelper.attachToRecyclerView(recyclerView);
         //---------------------------------------------------
-
 
         accessEmployee.setOnClickListener(new View.OnClickListener() {
             @Override

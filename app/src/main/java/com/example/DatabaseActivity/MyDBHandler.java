@@ -107,6 +107,8 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
 
         //cursor can be null !?
+        assert cursor != null;
+        //--------------------
         if (cursor.moveToFirst()) {
             do {
                 productQuery = new Product();
