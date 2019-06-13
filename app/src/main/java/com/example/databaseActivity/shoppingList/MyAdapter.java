@@ -1,4 +1,4 @@
-package com.example.DatabaseActivity.shoppingList;
+package com.example.databaseActivity.shoppingList;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -7,8 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.DatabaseActivity.MyApplication;
-import com.example.DatabaseActivity.R;
+import com.example.databaseActivity.MyApplication;
+import com.example.databaseActivity.R;
 
 import java.util.ArrayList;
 

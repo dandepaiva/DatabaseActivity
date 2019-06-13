@@ -1,4 +1,4 @@
-package com.example.DatabaseActivity.employeeVisualizer;
+package com.example.databaseActivity.employeeVisualizer;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -10,7 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.DatabaseActivity.R;
+import com.example.databaseActivity.R;
 
 import java.util.ArrayList;
 
@@ -39,7 +39,7 @@ public class EmployeeActivity extends Activity implements Remote.SendData, Inter
         employeeAdapter = new EmployeeAdapter();
         recyclerView.setAdapter(employeeAdapter);
 
-        /**
+        /*
          * Attach the ItemTouchHelper to the recyclerView
          */
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(

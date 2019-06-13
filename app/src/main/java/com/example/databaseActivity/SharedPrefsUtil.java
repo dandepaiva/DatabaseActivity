@@ -1,4 +1,4 @@
-package com.example.DatabaseActivity;
+package com.example.databaseActivity;
 
 import android.content.Context;
 import android.content.SharedPreferences;

@@ -1,4 +1,4 @@
-package com.example.DatabaseActivity.employeeVisualizer;
+package com.example.databaseActivity.employeeVisualizer;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -10,8 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.example.DatabaseActivity.MyApplication;
-import com.example.DatabaseActivity.R;
+import com.example.databaseActivity.MyApplication;
+import com.example.databaseActivity.R;
 
 import java.util.ArrayList;
 
@@ -33,7 +33,7 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
      * constructor
      */
     public EmployeeAdapter() {
-        this.employeeArrayList = new ArrayList<Employee>();
+        this.employeeArrayList = new ArrayList<>();
     }
 
     @NonNull
@@ -61,12 +61,12 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
 
     @Override
     public void onDelete(int position) {
-        /**
+        /*
          * Save the employee being deleted to have the undo option
          */
         recentlyDeleted = employeeArrayList.get(position);
         recentlyDeletedPosition = position;
-        /**
+        /*
          * remove employee from the array
          * notify the EmployeeAdapter
          */
@@ -134,7 +134,7 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
                 @Override
                 public void onClick(View v) {
                     int position = getLayoutPosition();
-                    /**
+                    /*
                      * callback is an instance of the interface
                      */
                     if (callback != null) {

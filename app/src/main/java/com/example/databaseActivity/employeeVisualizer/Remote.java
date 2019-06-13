@@ -1,4 +1,4 @@
-package com.example.DatabaseActivity.employeeVisualizer;
+package com.example.databaseActivity.employeeVisualizer;
 
 import android.util.Log;
 
@@ -8,7 +8,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.DatabaseActivity.MyApplication;
+import com.example.databaseActivity.MyApplication;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -38,7 +38,6 @@ class Remote {
         Runnable remoteRunnable = new Runnable() {
             @Override
             public void run() {
-
                 RequestQueue queue = Volley.newRequestQueue(MyApplication.getContext());
                 final String url = "http://dummy.restapiexample.com/api/v1/employees";
 

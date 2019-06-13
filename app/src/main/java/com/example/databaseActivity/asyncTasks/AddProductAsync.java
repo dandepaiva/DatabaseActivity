@@ -1,16 +1,16 @@
-package com.example.DatabaseActivity.AsyncTasks;
+package com.example.databaseActivity.asyncTasks;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.example.DatabaseActivity.MyApplication;
-import com.example.DatabaseActivity.shoppingList.MyContentProvider;
-import com.example.DatabaseActivity.shoppingList.MyDBHandler;
-import com.example.DatabaseActivity.shoppingList.Product;
+import com.example.databaseActivity.MyApplication;
+import com.example.databaseActivity.shoppingList.MyContentProvider;
+import com.example.databaseActivity.shoppingList.MyDBHandler;
+import com.example.databaseActivity.shoppingList.Product;
 
-public class AddProductAsync extends AsyncTask<Product, Product, Void> {
+class AddProductAsync extends AsyncTask<Product, Product, Void> {
 
     private static final String TAG = "ADD_ASYNC";
 

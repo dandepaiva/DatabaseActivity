@@ -1,4 +1,4 @@
-package com.example.DatabaseActivity.shoppingList;
+package com.example.databaseActivity.shoppingList;
 
 import android.support.annotation.NonNull;
 

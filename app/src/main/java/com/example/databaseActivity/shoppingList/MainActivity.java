@@ -1,4 +1,4 @@
-package com.example.DatabaseActivity.shoppingList;
+package com.example.databaseActivity.shoppingList;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -13,11 +13,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.DatabaseActivity.AsyncTasks.ProductsAsyncTask;
-import com.example.DatabaseActivity.LoaderCommunication;
-import com.example.DatabaseActivity.MyApplication;
-import com.example.DatabaseActivity.R;
-import com.example.DatabaseActivity.Repository;
+import com.example.databaseActivity.asyncTasks.ProductsAsyncTask;
+import com.example.databaseActivity.LoaderCommunication;
+import com.example.databaseActivity.MyApplication;
+import com.example.databaseActivity.R;
+import com.example.databaseActivity.Repository;
 
 import java.util.ArrayList;
 
@@ -25,8 +25,6 @@ import java.util.ArrayList;
  * This Activity allows the user to create and interact with a database of {@link Product}s
  */
 public class MainActivity extends AppCompatActivity implements LoaderCommunication {
-    private String TAG = "FIND BUTTON";
-    private String TAG2 = "REPOSITORY";
 
     /**
      * global variables to be used to generate and manage a RecyclerView
@@ -59,15 +57,15 @@ public class MainActivity extends AppCompatActivity implements LoaderCommunicati
                 String productNameString = productName.getText().toString();
                 String quantityValue = quantity.getText().toString();
 
-                /** Check if you wrote the name of the product */
+                /* Check if you wrote the name of the product */
                 if (TextUtils.isEmpty(productNameString)) {
                     showToast(getString(R.string.no_product_name));
                 }
-                /** Check if you gave it a quantity */
+                /* Check if you gave it a quantity */
                 else if (TextUtils.isEmpty(quantityValue)) {
                     showToast(getString(R.string.no_product_quantity, productNameString));
                 }
-                /** Check if the quantity is 0 */
+                /* Check if the quantity is 0 */
                 else if (Integer.parseInt(quantityValue) == 0) {
                     showToast(getString(R.string.zero_product, productNameString));
 

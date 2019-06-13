@@ -1,4 +1,4 @@
-package com.example.DatabaseActivity;
+package com.example.databaseActivity;
 
 import org.junit.Test;
 

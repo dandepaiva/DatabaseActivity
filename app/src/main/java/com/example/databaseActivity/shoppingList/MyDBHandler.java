@@ -1,4 +1,4 @@
-package com.example.DatabaseActivity.shoppingList;
+package com.example.databaseActivity.shoppingList;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.text.TextUtils;
 
-import com.example.DatabaseActivity.MyApplication;
+import com.example.databaseActivity.MyApplication;
 
 import java.util.ArrayList;
 
@@ -16,7 +16,6 @@ import java.util.ArrayList;
  * {@link SQLiteOpenHelper} implementation for app
  */
 public class MyDBHandler extends SQLiteOpenHelper {
-    private static String TAG = "SINGLETON";
     private static MyDBHandler instance;
 
     private final ContentResolver contentResolver;

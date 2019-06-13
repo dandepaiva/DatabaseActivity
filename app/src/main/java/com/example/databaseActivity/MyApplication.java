@@ -1,4 +1,4 @@
-package com.example.DatabaseActivity;
+package com.example.databaseActivity;
 
 import android.annotation.SuppressLint;
 import android.app.Application;

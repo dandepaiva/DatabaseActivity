@@ -1,11 +1,11 @@
-package com.example.DatabaseActivity.employeeVisualizer;
+package com.example.databaseActivity.employeeVisualizer;
 
 import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
 public class Employee {
-    // Name format due to Gson
+    // Name format due to GSON
     long id;
     @SerializedName("employee_name")
     String employeeName;

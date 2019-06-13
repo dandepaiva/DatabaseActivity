@@ -1,4 +1,4 @@
-package com.example.DatabaseActivity.employeeVisualizer;
+package com.example.databaseActivity.employeeVisualizer;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -10,8 +10,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 
-import com.example.DatabaseActivity.MyApplication;
-import com.example.DatabaseActivity.R;
+import com.example.databaseActivity.MyApplication;
+import com.example.databaseActivity.R;
 
 public class SwipeToDeleteCallback extends ItemTouchHelper.SimpleCallback {
     private InteractListener interactListener;
