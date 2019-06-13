@@ -53,12 +53,51 @@ class Remote {
                                 }.getType();
                                 ArrayList<Employee> employeesList = gson.fromJson(response, dataListType);
 
+                                /*
+                                OLDER VERSION WITHOUT GSON
+                                 */
+//                                JSONArray jsonArray = null;
+//
+//                                // Create JSON array with the string given at the URL
+//                                try {
+//                                    jsonArray = new JSONArray(response);
+//
+//                                } catch (JSONException e) {
+//                                    e.printStackTrace();
+//                                }
+//
+//                                // Return ("terminate") Listener if jsonArray is null or empty
+//                                if (jsonArray == null || jsonArray.length() == 0) {
+//                                    return;
+//                                }
+//
+//                                // Read each JSONObject in the JSONArray
+//                                for (int i = 0; i < jsonArray.length(); i++) {
+//                                    try {
+//                                        // Each JSONObject represents an Employee
+//                                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+//
+//                                        Long id = jsonObject.getLong("id");
+//                                        String employeeName = jsonObject.getString("employeeName");
+//                                        int employeeSalary = jsonObject.getInt("employeeSalary");
+//                                        int employeeAge = jsonObject.getInt("employeeAge");
+//                                        String profileImage = jsonObject.getString("profileImage");
+//
+//                                        // Create an Object Employee with the data in the JSONObject
+//                                        Employee employeeToAdd = new Employee(id, employeeName,
+//                                                employeeSalary, employeeAge, profileImage);
+//
+//                                        // Add the Employee to an ArrayList
+//                                        employeesList.add(employeeToAdd);
+//                                    } catch (JSONException e) {
+//                                        e.printStackTrace();
+//                                    }
+//                                }
 
                                 // SendData from Remote to Activity
                                 for (SendData callback : sendDataSet) {
                                     callback.sendData(employeesList);
                                 }
-
                             }
                         },
                         //Error Listener
