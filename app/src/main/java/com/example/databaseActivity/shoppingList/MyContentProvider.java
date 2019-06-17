@@ -25,7 +25,7 @@ public class MyContentProvider extends ContentProvider {
     /**
      * URI to the database of Products
      */
-    private static final String AUTHORITY = "com.example.DatabaseActivity.provider.MyContentProvider";
+    private static final String AUTHORITY = "com.example.databaseActivity.shoppingList.MyContentProvider";
     private static final String PRODUCTS_TABLE = "products";
     public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + PRODUCTS_TABLE);
 
@@ -67,9 +67,11 @@ public class MyContentProvider extends ContentProvider {
 
 
         // RECOMMENDED TO USE IF INSTEAD OF SWITCH
-        if(uriType == PRODUCTS) {
+        switch (uriType){
+            case PRODUCTS:
             id = sqlDB.insert(MyDBHandler.TABLE_PRODUCTS, null, values);
-        } else {
+            break;
+        default:
             throw new IllegalArgumentException("Unknown URI: " + uri);
         }
 
@@ -107,7 +109,7 @@ public class MyContentProvider extends ContentProvider {
     public int update(@NonNull Uri uri, ContentValues values, String selection, String[] selectionArgs) {
         int uriType = sURIMatcher.match(uri);
         SQLiteDatabase sqlDB = databaseHandler.getWritableDatabase();
-        int rowsUpdate;
+        int rowsUpdate = 0;
 
         switch (uriType){
             case PRODUCTS:

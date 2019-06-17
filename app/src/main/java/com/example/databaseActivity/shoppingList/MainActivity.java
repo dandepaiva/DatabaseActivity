@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -74,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements LoaderCommunicati
                     Repository.getInstance().insertProduct(findProduct, new Repository.UpdateUI() {
                         @Override
                         public void updateProgress(String text) {
+                            Log.d("MAINACTIVITY", "updateProgress() called with: text = [" + text + "]");
                         }
                     });
                 }

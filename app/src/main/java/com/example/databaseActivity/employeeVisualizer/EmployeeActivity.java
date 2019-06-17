@@ -56,8 +56,13 @@ public class EmployeeActivity extends Activity implements Remote.SendData, Inter
     }
 
     @Override
-    public void sendData(ArrayList<Employee> employeeList) {
-        employeeAdapter.update(employeeList);
+    public void sendData(final ArrayList<Employee> employeeList) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                employeeAdapter.update(employeeList);
+            }
+        });
     }
 
     @Override
@@ -84,11 +89,11 @@ public class EmployeeActivity extends Activity implements Remote.SendData, Inter
         Log.d(TAG, "onDelete() called with: position = [" + position + "]");
 
         Snackbar snackbar = Snackbar.make(recyclerView,
-                "Deleted the employee in position: " + position,
+                getString(R.string.snackbar_delete_text, position),
                 Snackbar.LENGTH_INDEFINITE);
-        // Listener for the Undo Button in the snack bar
 
-        snackbar.setAction("Undo action", new View.OnClickListener() {
+        // Listener for the Undo Button in the snack bar
+        snackbar.setAction(R.string.snackbar_undo_text, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         employeeAdapter.undoDelete();

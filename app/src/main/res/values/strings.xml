@@ -32,4 +32,6 @@
 
     <string name="my_adapter_units">"\t%1$d units"</string>
     <string name="delete_element">Delete this element</string>
+    <string name="snackbar_delete_text">"Deleted the employee in position: %1$d"</string>
+    <string name="snackbar_undo_text">"Undo Delete"</string>
 </resources>
