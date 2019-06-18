@@ -67,11 +67,9 @@ public class MyContentProvider extends ContentProvider {
 
 
         // RECOMMENDED TO USE IF INSTEAD OF SWITCH
-        switch (uriType){
-            case PRODUCTS:
+        if (uriType == PRODUCTS) {
             id = sqlDB.insert(MyDBHandler.TABLE_PRODUCTS, null, values);
-            break;
-        default:
+        } else {
             throw new IllegalArgumentException("Unknown URI: " + uri);
         }
 
@@ -118,14 +116,16 @@ public class MyContentProvider extends ContentProvider {
             case PRODUCTS_ID:
                 String id = uri.getLastPathSegment();
                 if(TextUtils.isEmpty(selection)) {
-                    rowsUpdate = sqlDB.update(MyDBHandler.TABLE_PRODUCTS,
+                    rowsUpdate = sqlDB.update(
+                            MyDBHandler.TABLE_PRODUCTS,
                             values,
                             MyDBHandler.COLUMN_ID + "=" + id,
                             null);
 
                 } else {
                     rowsUpdate = sqlDB.update(
-                            MyDBHandler.TABLE_PRODUCTS, values,
+                            MyDBHandler.TABLE_PRODUCTS,
+                            values,
                             MyDBHandler.COLUMN_ID + "=" + id  + " and " + selection,
                             selectionArgs);
                 }

@@ -53,7 +53,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         }
 
         void onBind(Product p) {
-            productName.setText(String.format("%s: ", p.getProductName()));
+            productName.setText(String.format("%s: ", p.getProductVisibleName()));
             quantity.setText(MyApplication.getContext().getString(R.string.my_adapter_units, p.getQuantity()));
         }
     }

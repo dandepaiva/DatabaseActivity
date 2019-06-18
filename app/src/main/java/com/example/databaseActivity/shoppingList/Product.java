@@ -14,12 +14,14 @@ import android.support.annotation.NonNull;
  */
 public class Product {
     private String productName;
+    private String productVisibleName;
     private int quantity;
 
     public Product(){}
 
-    public Product(String name, int quantity) {
+    public Product(String name, String visibleName, int quantity) {
         this.productName = name;
+        this.productVisibleName = visibleName;
         this.quantity = quantity;
     }
 
@@ -45,6 +47,14 @@ public class Product {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public String getProductVisibleName() {
+        return productVisibleName;
+    }
+
+    public void setProductVisibleName(String productVisibleName) {
+        this.productVisibleName = productVisibleName;
     }
 
     /**

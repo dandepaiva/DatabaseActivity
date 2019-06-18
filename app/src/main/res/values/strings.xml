@@ -34,4 +34,5 @@
     <string name="delete_element">Delete this element</string>
     <string name="snackbar_delete_text">"Deleted the employee in position: %1$d"</string>
     <string name="snackbar_undo_text">"Undo Delete"</string>
+    <string name="product_added_message">"%1$s added to the list"</string>
 </resources>

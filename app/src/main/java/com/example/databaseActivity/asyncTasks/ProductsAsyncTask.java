@@ -2,13 +2,8 @@ package com.example.databaseActivity.asyncTasks;
 
 import android.app.Activity;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.example.databaseActivity.LoaderCommunication;
-import com.example.databaseActivity.MyApplication;
-import com.example.databaseActivity.shoppingList.MyDBHandler;
-import com.example.databaseActivity.shoppingList.Product;
-import com.example.databaseActivity.R;
 
 import java.lang.ref.WeakReference;
 
@@ -31,14 +26,14 @@ public class ProductsAsyncTask extends AsyncTask<Void, Integer, Void> {
 
     @Override
     protected Void doInBackground(Void... voids) {
-        for (int i = 0; i < 1000; i++) {
+    /*      for (int i = 0; i < 1000; i++) {
             Log.d(TAG, "doInBackground() called with count: " + i);
 
             Product findProduct = new Product(MyApplication.getContext().getString(R.string.async_throttle, i), i);
             publishProgress(i);
             MyDBHandler.addProduct(findProduct);
         }
-
+    */
         return null;
     }
 

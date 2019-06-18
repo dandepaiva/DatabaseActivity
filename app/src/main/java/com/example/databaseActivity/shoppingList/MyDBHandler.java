@@ -23,14 +23,14 @@ public class MyDBHandler extends SQLiteOpenHelper {
     /**
      * Database information
      */
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private static final String DATABASE_NAME = "productDB.db";
     static final String TABLE_PRODUCTS = "products";
 
     /**
      * name of the columns in the database
      */
-    public static final String COLUMN_ID = "_id", COLUMN_PRODUCT_NAME = "productname", COLUMN_QUANTITY = "quantity";
+    public static final String COLUMN_ID = "_id", COLUMN_PRODUCT_NAME = "productname", COLUMN_VISIBLE_NAME = "visible_name", COLUMN_QUANTITY = "quantity";
 
 
     /**
@@ -54,6 +54,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String CREATE_BOOK_TABLE = "CREATE TABLE " + TABLE_PRODUCTS + " ( " +
                 COLUMN_PRODUCT_NAME + " TEXT, " +
+                COLUMN_VISIBLE_NAME + " TEXT, " +
                 COLUMN_QUANTITY + " INTEGER )";
 
         db.execSQL(CREATE_BOOK_TABLE);
@@ -62,6 +63,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PRODUCTS);
+
         this.onCreate(db);
     }
 
@@ -73,6 +75,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
     public static void addProduct(Product product) {
         ContentValues values = new ContentValues();
         values.put(COLUMN_PRODUCT_NAME, product.getProductName());
+        values.put(COLUMN_VISIBLE_NAME, product.getProductVisibleName());
         values.put(COLUMN_QUANTITY, product.getQuantity());
 
         int onUpdate = getInstance().contentResolver.update(MyContentProvider.CONTENT_URI, values, MyDBHandler.COLUMN_PRODUCT_NAME + " = ?", new String[]{product.getProductName()});
@@ -102,20 +105,23 @@ public class MyDBHandler extends SQLiteOpenHelper {
         Cursor cursor = getInstance().contentResolver.query(MyContentProvider.CONTENT_URI, null, whereClause, whereParam, MyDBHandler.COLUMN_QUANTITY);
 
         String prodNameQuery;
+        String prodVisibleNameQuery;
         int prodQuantityQuery;
         Product productQuery;
         ArrayList<Product> tableRow = new ArrayList<>();
 
 
-        //cursor can be null !?
+        //cursor can be null
         assert cursor != null;
-        //--------------------
         if (cursor.moveToFirst()) {
             do {
                 productQuery = new Product();
                 prodNameQuery = cursor.getString(cursor.getColumnIndex(MyDBHandler.COLUMN_PRODUCT_NAME));
+                prodVisibleNameQuery = cursor.getString(cursor.getColumnIndex(MyDBHandler.COLUMN_VISIBLE_NAME));
                 prodQuantityQuery = Integer.parseInt(cursor.getString(cursor.getColumnIndex(MyDBHandler.COLUMN_QUANTITY)));
+
                 productQuery.setProductName(prodNameQuery);
+                productQuery.setProductVisibleName(prodVisibleNameQuery);
                 productQuery.setQuantity(prodQuantityQuery);
 
                 tableRow.add(productQuery);

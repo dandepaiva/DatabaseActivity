@@ -7,8 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -19,8 +17,6 @@ import com.example.databaseActivity.LoaderCommunication;
 import com.example.databaseActivity.MyApplication;
 import com.example.databaseActivity.R;
 import com.example.databaseActivity.Repository;
-
-import java.util.ArrayList;
 
 /**
  * This Activity allows the user to create and interact with a database of {@link Product}s
@@ -52,33 +48,27 @@ public class MainActivity extends AppCompatActivity implements LoaderCommunicati
         RecyclerView.LayoutManager recyclerViewLayout = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(recyclerViewLayout);
 
-        addButton.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String productNameString = productName.getText().toString();
-                String quantityValue = quantity.getText().toString();
+        addButton.setOnClickListener(v -> {
+            String productNameString = productName.getText().toString();
+            String quantityValue = quantity.getText().toString();
 
-                /* Check if you wrote the name of the product */
-                if (TextUtils.isEmpty(productNameString)) {
-                    showToast(getString(R.string.no_product_name));
-                }
-                /* Check if you gave it a quantity */
-                else if (TextUtils.isEmpty(quantityValue)) {
-                    showToast(getString(R.string.no_product_quantity, productNameString));
-                }
-                /* Check if the quantity is 0 */
-                else if (Integer.parseInt(quantityValue) == 0) {
-                    showToast(getString(R.string.zero_product, productNameString));
+            /* Check if you wrote the name of the product */
+            if (TextUtils.isEmpty(productNameString)) {
+                showToast(getString(R.string.no_product_name));
+            }
+            /* Check if you gave it a quantity */
+            else if (TextUtils.isEmpty(quantityValue)) {
+                showToast(getString(R.string.no_product_quantity, productNameString));
+            }
+            /* Check if the quantity is 0 */
+            else if (Integer.parseInt(quantityValue) == 0) {
+                showToast(getString(R.string.zero_product, productNameString));
 
-                } else {
-                    Product findProduct = new Product(productNameString, Integer.parseInt(quantityValue));
-                    Repository.getInstance().insertProduct(findProduct, new Repository.UpdateUI() {
-                        @Override
-                        public void updateProgress(String text) {
-                            Log.d("MAINACTIVITY", "updateProgress() called with: text = [" + text + "]");
-                        }
-                    });
-                }
+            } else {
+                Product findProduct = new Product(shortenName(productNameString), productNameString, Integer.parseInt(quantityValue));
+                Repository.getInstance().insertProduct(findProduct, text -> {
+                });
+                showToast(getString(R.string.product_added_message, productNameString));
             }
         });
 
@@ -89,25 +79,19 @@ public class MainActivity extends AppCompatActivity implements LoaderCommunicati
          * send it to the {@link Repository} to be found or not in the database
          * updated the Recycler View with the product's values
          */
-        findButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final String productNameString = productName.getText().toString();
+        findButton.setOnClickListener(v -> {
+            final String productNameString = productName.getText().toString();
 
-                Repository.getInstance().findProduct(productNameString, new Repository.ProductsArrayList() {
+            Repository.getInstance().findProduct(shortenName(productNameString), products -> {
+                new Runnable() {
                     @Override
-                    public void productsArrayList(ArrayList<Product> products) {
-                        new Runnable() {
-                            @Override
-                            public void run() {
+                    public void run() {
 
-                            }
-                        };
-                        recyclerViewAdapter = new MyAdapter(products);
                     }
-                });
-                recyclerView.setAdapter(recyclerViewAdapter);
-            }
+                };
+                recyclerViewAdapter = new MyAdapter(products);
+            });
+            recyclerView.setAdapter(recyclerViewAdapter);
         });
 
         /*
@@ -117,28 +101,21 @@ public class MainActivity extends AppCompatActivity implements LoaderCommunicati
          * send it to the {@link Repository} to be deleted or not in the database
          * shows a {@link Toast} with a message of success or not of the query
          */
-        deleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final String productNameString = productName.getText().toString();
+        deleteButton.setOnClickListener(v -> {
+            final String productNameString = productName.getText().toString();
 
-                Repository.getInstance().deleteProduct(productNameString, new Repository.IsSuccess() {
-                    @Override
-                    public void isSuccess(boolean success) {
-                        final String message = success
-                                ? MyApplication.getContext().getString(R.string.delete_success, productNameString)
-                                : MyApplication.getContext().getString(R.string.delete_failed, productNameString);
+            Repository.getInstance().deleteProduct(shortenName(productNameString), success -> {
+                final String message = success
+                        ? MyApplication.getContext().getString(R.string.delete_success, productNameString)
+                        : MyApplication.getContext().getString(R.string.delete_failed, productNameString);
 
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                showToast(message);
-                            }
-                        });
-                    }
-                });
-            }
+                runOnUiThread(() -> showToast(message));
+            });
         });
+    }
+
+    private String shortenName(String name){
+        return name.toLowerCase().replaceAll("\\s", "");
     }
 
     /**
